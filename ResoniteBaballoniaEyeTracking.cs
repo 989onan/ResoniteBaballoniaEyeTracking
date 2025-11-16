@@ -9,7 +9,7 @@ public class ResoniteBaballoniaEyeTracking : ResoniteMod
 {
     public override string Name => "ResoniteBaballoniaEyeTracking";
     public override string Author => "hantabaru1014";
-    public override string Version => "0.1.0";
+    public override string Version => "0.1.1";
     public override string Link => "https://github.com/hantabaru1014/ResoniteBaballoniaEyeTracking";
 
     [AutoRegisterConfigKey]
@@ -81,14 +81,12 @@ public class ResoniteBaballoniaEyeTracking : ResoniteMod
 
             _eyes.IsEyeTrackingActive = true;
 
-            var leftEyeOpenness = 1 - _leftEyeLid;
-            var rightEyeOpenness = 1 - _rightEyeLid;
             var leftEyeDirection = Project2DTo3D(_leftEyePosX, _leftEyePosY);
-            UpdateEye(_eyes.LeftEye, true, leftEyeDirection, leftEyeOpenness);
+            UpdateEye(_eyes.LeftEye, true, leftEyeDirection, _leftEyeLid);
             var rightEyeDirection = Project2DTo3D(_rightEyePosX, _rightEyePosY);
-            UpdateEye(_eyes.RightEye, true, rightEyeDirection, rightEyeOpenness);
+            UpdateEye(_eyes.RightEye, true, rightEyeDirection, _rightEyeLid);
             var combinedDirection = MathX.Average(leftEyeDirection, rightEyeDirection);
-            var combinedOpenness = MathX.Average(leftEyeOpenness, rightEyeOpenness);
+            var combinedOpenness = MathX.Average(_leftEyeLid, _rightEyeLid);
             UpdateEye(_eyes.CombinedEye, true, combinedDirection, combinedOpenness);
             _eyes.ComputeCombinedEyeParameters();
 
